@@ -29,10 +29,19 @@ def texify_table(precision, cols, *args):
                 arguments.append(list(elem[rows*i:rows*(i+1)]))
         return texify_table(precision, 1, *arguments)
     table = ""
-    for i in range(0, len(args[0])):
+    N = 0
+    if type(args[0]) == tuple:
+        N = len(args[0][0])
+    else:
+        N = len(args[0])
+    for i in range(0, N):
         for j, col in enumerate(args):
-            if i < len(col):
-                table += str(new_round(float(col[i]), precision))
+            if (i < len(col)) or (type(col) == tuple and i < len(col[0])):
+                if type(col) == tuple:
+                    table += "$" + str(new_round(float(col[0][i]), precision)) + " \pm "
+                    table += str(new_round(float(col[1][i]), precision)) + "$"
+                else:
+                    table += str(new_round(float(col[i]), precision))
             else:
                 table += " "
             if j != len(args)-1:
