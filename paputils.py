@@ -1,5 +1,11 @@
 import sympy
 import re
+from IPython.display import display, Latex
+
+def pretty_print(latex, var):
+    """function to output results in latex inside of a jupyter notebook"""
+    result = "$${} = {}$$".format(latex, sympy.latex(var))
+    display(Latex(result))
 
 def texify_expr(expr, *args):
     """expr should be a string with a valid python math expression and subs should
